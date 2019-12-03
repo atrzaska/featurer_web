@@ -6,12 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", media: "all" %>
-  <%= stylesheet_link_tag "featurer_web/application", media: "all" %>
-
-  <%= javascript_include_tag "https://code.jquery.com/jquery-3.1.1.min.js" %>
-  <%= javascript_include_tag "featurer_web/application" %>
 </head>
 <body>
 
@@ -44,5 +39,28 @@
   <%= yield %>
 </div>
 
+<%= javascript_include_tag "https://code.jquery.com/jquery-3.1.1.min.js" %>
+<script>
+  $(document).ready(function() {
+    $("a[data-method=delete]").on('click', function(e) {
+      e.preventDefault();
+
+      if (confirm("Are you sure?") == true) {
+        theElement = $(this);
+
+        $.ajax({
+          url: $(this).attr("href"),
+          type: "DELETE",
+          success: function() {
+            row = theElement.closest("tr");
+            row.fadeOut(400, function() {
+              row.remove();
+            });
+          }
+        });
+      }
+    });
+  });
+</script>
 </body>
 </html>
